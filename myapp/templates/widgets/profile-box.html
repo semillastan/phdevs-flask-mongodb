@@ -1,0 +1,19 @@
+<div class="box box-widget widget-user-2">
+  <!-- Add the bg color to the header using any of the bg-* classes -->
+  <div class="widget-user-header bg-yellow">
+    <div class="widget-user-image">
+      <img class="img-circle" src="{% if current_user.image_url %}{{ current_user.image_url }}{% else %}{{ url_for('static', filename='images/logo.png') }}{% endif %}" alt="User Image">
+    </div>
+    <!-- /.widget-user-image -->
+    <h3 class="widget-user-username">{{ current_user.email }}</h3>
+    <h5 class="widget-user-desc">{% if current_user.full_name() %}{{ current_user.full_name() }}{% else %}Update your profile{% endif %}</h5>
+  </div>
+  <div class="box-footer no-padding">
+    <ul class="nav nav-stacked">
+      <li><a href="#">Agents <span class="pull-right badge bg-blue">{{ no_of_agents }}</span></a></li>
+      <li><a href="#">Last Login <span class="pull-right moment-date" data-format="MMMM D, YYYY" data-date="{{ current_user.current_login_at }}"></span></a></li>
+      <li><a href="#">Current IP Address <span class="pull-right">{{ current_user.current_login_ip }}</span></a></li>
+      <li><a href="#">Logins <span class="pull-right">{{ current_user.login_count }}</span></a></li>
+    </ul>
+  </div>
+</div>

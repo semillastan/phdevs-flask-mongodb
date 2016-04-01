@@ -1,0 +1,98 @@
+<aside class="main-sidebar">
+  {% if current_user.is_authenticated %}  
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      <div class="user-panel">
+        <div class="pull-left image">
+          <img src="{% if current_user.image_url %}{{ current_user.image_url }}{% else %}{{ url_for('static', filename='images/logo.png') }}{% endif %}" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p>{% if current_user.name %}{{ current_user.name }}{% else %}{{ current_user.email }}{% endif %}</p>
+          <a href="#">{{ current_user.company.name }}</a>
+        </div>
+      </div>
+
+      <!-- search form -->
+      <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+          <input type="text" name="q" class="form-control" placeholder="Search...">
+          <span class="input-group-btn">
+            <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+          </span>
+        </div>
+      </form>
+      <!-- /.search form -->
+
+      <ul class="sidebar-menu">
+        <li class="header">Navigation</li>
+        <li>
+          <a href="">
+            <i class="fa fa-paper-plane-o"></i> <span>Accept Request</span>
+          </a>
+        </li>
+        <li {% if 'chat' in request.url_rule.rule %}class="active"{% endif %}>
+          <a href="{{ url_for('chat.chat') }}">
+            <i class="fa fa-commenting-o"></i> <span>Chat</span>
+          </a>
+        </li>
+        <li {% if 'recent-activity' in request.url_rule.rule %}class="active"{% endif %}>
+          <a href="{{ url_for('messages.recent-activity') }}">
+            <i class="fa fa-files-o"></i>
+            <span>Recent Activity</span>
+          </a>
+        </li>
+        <li {% if 'missed-requests' in request.url_rule.rule %}class="active"{% endif %}>
+          <a href="{{ url_for('messages.missed-requests') }}">
+            <i class="fa fa-bell-o"></i>
+            <span>Missed Requests</span>
+          </a>
+        </li>
+        <li {% if 'profile' in request.url_rule.rule %}class="active"{% endif %}>
+          <a href="{{ url_for('accounts.profile') }}">
+            <i class="fa fa-user"></i> <span>Profile</span>
+          </a>
+        </li>
+        {% if current_user.has_role("admin") or current_user.has_role("superuser") %}
+          <li {% if 'agents' in request.url_rule.rule %}class="active"{% endif %}>
+            <a href="{{ url_for('agents.index') }}">
+              <i class="fa fa-users"></i> <span>Agents</span> <small class="label pull-right bg-green">{{ no_of_agents }}</small>
+            </a>
+          </li>
+        {% endif %}
+        <li class="treeview" style="display:none;">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+            <li><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+          </ul>
+        </li>
+        <li {% if 'messages' in request.url_rule.rule %}class="active"{% endif %} style="display:none;">
+          <a href="{{ url_for('messages.index') }}">
+            <i class="fa fa-commenting"></i> <span>Messages</span> <small class="label pull-right bg-green">new</small>
+          </a>
+        </li>
+      </ul>
+    </section>
+  {% else %}
+    <section class="sidebar">
+      <ul class="sidebar-menu">
+        <li class="treeview">
+          <a href="{{ url_for('pages.home') }}">
+            <i class="fa fa-sign-in"></i>
+            <span>Login</span>
+          </a>
+        </li>
+        <li class="treeview">
+          <a href="{{ url_for('accounts.forgot_password') }}">
+            <i class="fa fa-lock"></i>
+            <span>Forgot Password</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+  {% endif %}
+  <!-- /.sidebar -->
+</aside>
+

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="google-site-verification" content="eu5JnCL0ZJs0mmWInI9Dqwp2vRFA62-A_l5Gl2btLLs" />
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}"/>
+
+    <title>MyApp - {% block page_title %}{% endblock %}</title>
+
+    {% block page_css %}{% endblock %}
+
+    {% assets "css_all" %}
+      <link rel="stylesheet" href="{{ ASSET_URL }}"/>
+    {% endassets %}
+
+    <!-- Custom -->
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,300italic,400italic,600,700,600italic,700italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  </head>
+  <body id="{% block body %}{% endblock %}" class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+      {% include "header.html" %}
+      {% include "sidebar.html" %}
+      
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+
+    {% block page_modal %}{% endblock %}
+
+    {% assets "js_all" %}
+      <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+
+    {% block js_footer %}{% endblock %}
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <script>
+        var notifyOptions = {
+        globalPosition: 'bottom left',
+        };
+        {% for message in messages %}
+        $.notify("{{ message }}", notifyOptions);
+        {% endfor %}
+      </script>
+      {% endif %}
+    {% endwith %}
+
+  </body>
+</html>

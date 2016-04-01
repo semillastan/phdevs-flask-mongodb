@@ -1,0 +1,43 @@
+{% macro render_field(field) %}
+<div class="form-group {% if field.errors %}has-error{% endif %}">
+  <label class="sr-only">{{ field.label }}</label>
+  {{ field(**kwargs)|safe }}
+  {% if field.errors %}
+  <ul class=errors>
+    {% for error in field.errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>
+{% endmacro %}
+
+{% macro render_field_label(field) %}
+<div class="form-group {% if field.errors %}has-error{% endif %}">
+  <label>{{ field.label }}</label>
+  {{ field(**kwargs)|safe }}
+  {% if field.errors %}
+  <ul class=errors>
+    {% for error in field.errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>
+{% endmacro %}
+
+{% macro render_horizontal_field(field, id="", placeholder="") %}
+<div class="form-group {% if field.errors %}has-error{% endif %}">
+  <label for="{{ id }}" class="col-sm-2 control-label">{{ placeholder }}</label>
+  <div class="col-sm-10">
+    {{ field(id=id, placeholder=placeholder, **kwargs)|safe }}
+  </div>
+  {% if field.errors %}
+  <ul class=errors>
+    {% for error in field.errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>
+{% endmacro %}

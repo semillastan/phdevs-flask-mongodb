@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block page_title %}Register{% endblock %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block page_modal %}
+<div class="modal fade" id="registerModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a class="close" aria-label="Close" href="{{ url_for('pages.home') }}"><span aria-hidden="true">&times;</span></a>
+                <h4 class="modal-title">REGISTER</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-signin" role="form" action="{{ url_for('accounts.register', token='LbtJSg4qhSzuKrz6SS8KeJkZKaxhjsMx') }}" method="post" autocomplete="false">
+                    {{ register_user_form.csrf_token }}
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        {{ render_field(register_user_form.email, class='form-control', id='inputEmail', placeholder='Email Address') }}
+                    </div>
+                    <div class="form-group">
+                        <label>First Name</label>
+                        {{ render_field(register_user_form.first_name, class='form-control', id='inputFirstName', placeholder='First Name') }}
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        {{ render_field(register_user_form.last_name, class='form-control', id='inputLastName', placeholder='Last Name') }}
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        {{ render_field(register_user_form.password, type='password', class='form-control', id='inputPassword', placeholder='Password') }}
+                    </div>
+                    <div class="form-group">
+                        <label>Company ID</label>
+                        <div class="form-group">
+                          <label class="sr-only">Company ID</label>
+                          <input type="text" name="company_id" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button class="btn btn-primary" type="submit" id="submitButton" disabled><i class="fa fa-check"></i> Register</button>
+                            <a class="btn btn-default" type="button" href="{{ url_for('pages.home') }}"><i class="fa fa-times"></i> Cancel</a>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-footer">
+                                <span class="message">Already registered? <a href="{{ url_for('accounts.login') }}">Login</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+  <div class="container">
+    
+
+  </div> <!-- /container -->
+{% endblock %}
+
+{% block js_footer %}
+<script>
+    
+    $('#registerModal').modal({
+        show: true,
+        backdrop: 'static',
+    });
+
+    function isValidEmailAddress(emailAddress) {
+      var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
+      return pattern.test(emailAddress);
+    }
+
+    function enableSubmit(){
+        var email = $('#inputEmail').val();
+
+        if(isValidEmailAddress(email)){
+            $('#submitButton').removeAttr('disabled');
+        }else{
+            $('#submitButton').attr('disabled', 'disabled');
+        }
+    }
+
+    var inputEmailTooltip = {
+        'trigger': 'hover',
+        'placement': 'left',
+        'title': 'Invalid email address',
+    };
+
+    $('#inputEmail').on('change', function(){
+        var val = $(this).val();
+        if(!isValidEmailAddress(val)){
+            $('#inputEmail').tooltip(inputEmailTooltip);
+            $(this).parent().addClass('has-error');
+        }else{
+            $('#inputEmail').tooltip('destroy');
+            $(this).parent().removeClass('has-error');
+        }
+        enableSubmit();
+    });
+
+
+</script>
+{% endblock %}

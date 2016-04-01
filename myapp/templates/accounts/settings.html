@@ -1,0 +1,40 @@
+{% extends "jackpot/base.html" %}
+
+{% block page_title %}Settings{% endblock %}
+{% block page_header %}
+  <span class="_header">Settings</span>
+{% endblock %}
+
+{% block action_buttons %}
+<div class="row">
+  <div class="col-md-12">
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-6">
+    <div class="ds-box">
+      <div class="ds-box-header">
+        <span class="_title">User Information</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="ds-box">
+      <div class="ds-box-header">
+        <span class="_title">Company Information</span>
+      </div>
+      <div class="ds-box-content">
+        {% if company is defined %}
+          <a href="" class="btn btn-success btn-material"><i class="fa fa-plus"></i> Add Company</a>
+        {% else %}
+          <a href="" class="btn btn-success btn-material"><i class="fa fa-pencil"></i> Update Company</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
